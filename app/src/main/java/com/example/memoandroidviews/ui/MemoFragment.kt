@@ -17,7 +17,10 @@ class MemoFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: MemoViewModel by viewModel()
-    private val adapter = MemoAdapter { memo -> viewModel.delete(memo) }
+    private val adapter = MemoAdapter(
+        onDeleteClicked = { memo -> viewModel.delete(memo) },
+        onUpdateClicked = { memo -> viewModel.update(memo) }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,

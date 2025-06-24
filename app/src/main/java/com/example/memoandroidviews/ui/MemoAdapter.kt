@@ -2,6 +2,7 @@ package com.example.memoandroidviews.ui
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -9,17 +10,35 @@ import com.example.memoandroidviews.data.Memo
 import com.example.memoandroidviews.databinding.ItemMemoBinding
 
 class MemoAdapter(
-    private val onDeleteClicked: (Memo) -> Unit
+    private val onDeleteClicked: (Memo) -> Unit,
+    private val onUpdateClicked: (Memo) -> Unit
 ) : ListAdapter<Memo, MemoAdapter.MemoViewHolder>(MemoDiffCallback()) {
+    private val editingStates = mutableMapOf<Int, Boolean>()
 
     inner class MemoViewHolder(private val binding: ItemMemoBinding) :
         androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
 
         fun bind(memo: Memo) {
             binding.memo = memo
-            binding.btnDelete.setOnClickListener {
+
+            val isEditing = editingStates[memo.id] ?: false
+            binding.isEditing = isEditing
+
+            binding.onEditClicked = View.OnClickListener {
+                editingStates[memo.id] = true
+                notifyItemChanged(adapterPosition)
+            }
+
+            binding.onSaveClicked = View.OnClickListener {
+                editingStates[memo.id] = false
+                onUpdateClicked(memo)
+                notifyItemChanged(adapterPosition)
+            }
+
+            binding.onDeleteClicked = View.OnClickListener {
                 onDeleteClicked(memo)
             }
+
             binding.executePendingBindings()
         }
     }
