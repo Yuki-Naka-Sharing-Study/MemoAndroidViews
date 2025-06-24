@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.room)
     alias(libs.plugins.google.devtools.ksp)
+    id("kotlin-kapt") // DataBinding用
 }
 
 android {
@@ -37,6 +38,9 @@ android {
     }
     room {
         schemaDirectory("$projectDir/schemas")
+    }
+    buildFeatures {
+        dataBinding = true
     }
 }
 
