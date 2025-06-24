@@ -1,18 +1,20 @@
 package com.example.memoandroidviews.ui
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import com.example.memoandroidviews.data.Memo
 import com.example.memoandroidviews.databinding.ItemMemoBinding
 
 class MemoAdapter(
     private val onDeleteClicked: (Memo) -> Unit
-) : RecyclerView.Adapter<MemoAdapter.MemoViewHolder>() {
+) : ListAdapter<Memo, MemoAdapter.MemoViewHolder>(MemoDiffCallback()) {
 
-    private var memoList = listOf<Memo>()
+    inner class MemoViewHolder(private val binding: ItemMemoBinding) :
+        androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
 
-    inner class MemoViewHolder(private val binding: ItemMemoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(memo: Memo) {
             binding.memo = memo
             binding.btnDelete.setOnClickListener {
@@ -27,14 +29,21 @@ class MemoAdapter(
         return MemoViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = memoList.size
-
     override fun onBindViewHolder(holder: MemoViewHolder, position: Int) {
-        holder.bind(memoList[position])
+        val item = getItem(position)
+        Log.d("MemoAdapter", "Binding item: id=${item.id}, content=${item.content}")
+        holder.bind(item)
     }
 
-    fun submitList(list: List<Memo>) {
-        memoList = list
-        notifyDataSetChanged()
+    class MemoDiffCallback : DiffUtil.ItemCallback<Memo>() {
+        override fun areItemsTheSame(oldItem: Memo, newItem: Memo): Boolean {
+            return oldItem.id == newItem.id &&
+                    oldItem.content == newItem.content &&
+                    oldItem.timestamp == newItem.timestamp
+        }
+
+        override fun areContentsTheSame(oldItem: Memo, newItem: Memo): Boolean {
+            return oldItem == newItem
+        }
     }
 }

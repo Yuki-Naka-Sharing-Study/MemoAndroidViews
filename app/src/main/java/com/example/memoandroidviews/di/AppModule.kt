@@ -1,6 +1,5 @@
 package com.example.memoandroidviews.di
 
-import android.app.Application
 import androidx.room.Room
 import com.example.memoandroidviews.data.MemoDatabase
 import com.example.memoandroidviews.repository.MemoRepository
@@ -16,7 +15,9 @@ val appModule = module {
             androidApplication(),
             MemoDatabase::class.java,
             "memo_database"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     single { get<MemoDatabase>().memoDao() }
