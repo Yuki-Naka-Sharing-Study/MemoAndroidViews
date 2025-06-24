@@ -57,7 +57,7 @@ dependencies {
 
     // --- Koin (DI) ---
     implementation("io.insert-koin:koin-android:4.0.4")
-    implementation("io.insert-koin:koin-androidx-viewmodel:3.5.0")
+//    implementation("io.insert-koin:koin-androidx-viewmodel:3.5.0")
 
 
     implementation(libs.androidx.core.ktx)
