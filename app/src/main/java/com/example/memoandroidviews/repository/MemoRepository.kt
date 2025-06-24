@@ -15,4 +15,8 @@ class MemoRepository(private val memoDao: MemoDao) {
     suspend fun delete(memo: Memo) {
         memoDao.delete(memo)
     }
+
+    suspend fun update(memo: Memo) {
+        memoDao.update(memo)
+    }
 }

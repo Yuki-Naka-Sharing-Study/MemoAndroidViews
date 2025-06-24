@@ -19,4 +19,10 @@ class MemoViewModel(private val repository: MemoRepository) : ViewModel() {
             repository.delete(memo)
         }
     }
+
+    fun update(memo: Memo) {
+        viewModelScope.launch {
+            repository.update(memo)
+        }
+    }
 }
