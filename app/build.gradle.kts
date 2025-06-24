@@ -47,6 +47,10 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     annotationProcessor(libs.androidx.room.compiler)
 
+    // --- Lifecycle (LiveData / ViewModel) ---
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
